@@ -1,5 +1,5 @@
 import React from 'react';
-import { type ActivityItem } from '../../types';
+import type { ActivityItem } from '../../types';
 
 interface ActivityIconsProps {
   activities: ActivityItem[];

@@ -1,5 +1,5 @@
 import React from 'react';
-import { type SocialLink } from '../../types';
+import type { SocialLink } from '../../types';
 
 interface SocialLinksProps {
   links: SocialLink[];

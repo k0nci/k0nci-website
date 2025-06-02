@@ -1,6 +1,7 @@
-import { type PersonalInfo, type ActivityItem, type SocialLink } from '../types';
+import type { PersonalInfo, ActivityItem, SocialLink } from '../types';
 import { SiGithub, SiLinkedin } from 'react-icons/si';
 import { PiPersonSimpleBike, PiPersonSimpleSnowboard, PiMountains } from 'react-icons/pi';
+import type { Person, WithContext } from 'schema-dts';
 
 export const personalInfo: PersonalInfo = {
   name: 'Matej Koncal',
@@ -27,3 +28,17 @@ export const socialLinks: SocialLink[] = [
     icon: SiLinkedin,
   },
 ];
+
+export const seoStructuredData: WithContext<Person> = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: personalInfo.name,
+  jobTitle: 'Software Engineer',
+  url: 'https://k0nci.com',
+  sameAs: ['https://github.com/k0nci', 'https://linkedin.com/in/mkoncal'],
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: ['Slovak Technical University', 'Faculty of Informatics and Information Technologies'],
+  },
+  knowsAbout: ['Backend Development', 'Cloud Computing', 'Software Architecture'],
+};

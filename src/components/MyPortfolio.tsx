@@ -6,7 +6,15 @@ import HeroTitle from './content/HeroTitle';
 import TechStack from './content/TechStack';
 import ActivityIcons from './content/ActivityIcons';
 import SocialLinks from './content/SocialLinks';
-import { personalInfo, technologies, activities, socialLinks } from '../data/portfolioData';
+import {
+  personalInfo,
+  technologies,
+  activities,
+  socialLinks,
+  seoStructuredData,
+} from '../data/portfolioData';
+import type { Person } from 'schema-dts';
+import { JsonLd } from 'react-schemaorg';
 
 const MountainPortfolio: React.FC = () => {
   return (
@@ -33,6 +41,8 @@ const MountainPortfolio: React.FC = () => {
       <div className="absolute right-4 bottom-2 z-30">
         <p className="text-[0.5rem] text-white/60">Built by k0nci with AI help • 2025</p>
       </div>
+      {/* Structured data for SEO */}
+      <JsonLd<Person> item={seoStructuredData} />
     </div>
   );
 };
