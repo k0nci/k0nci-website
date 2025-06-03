@@ -34,7 +34,7 @@ export const seoStructuredData: WithContext<Person> = {
   '@type': 'Person',
   name: personalInfo.name,
   jobTitle: 'Software Engineer',
-  url: 'https://k0nci.com',
+  url: 'https://k0nci.me',
   sameAs: ['https://github.com/k0nci', 'https://linkedin.com/in/mkoncal'],
   alumniOf: {
     '@type': 'CollegeOrUniversity',
