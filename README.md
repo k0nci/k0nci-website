@@ -14,7 +14,7 @@ A personal portfolio website built with React, TypeScript, and Vite. Features a 
 
 ### Prerequisites
 
-- Node.js 20
+- Node.js 22
 - npm
 
 ### Installation

@@ -8,7 +8,7 @@ export const personalInfo: PersonalInfo = {
   subtitle: 'Software Engineer & Mountain Enthusiast',
 };
 
-export const technologies = ['Backend', 'Cloud', 'Microservices', 'DevOps'];
+export const technologies = ['Backend', 'Cloud', 'Architecture', 'DevOps'];
 
 export const activities: ActivityItem[] = [
   { icon: PiPersonSimpleBike, title: 'Mountain Biking' },
