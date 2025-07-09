@@ -1,4 +1,7 @@
 import React from 'react';
+import type { Person } from 'schema-dts';
+import { helmetJsonLdProp } from 'react-schemaorg';
+import { useHead } from '@unhead/react';
 // import AuroraBackground from './background/AuroraBackground';
 import TwinklingStars from './background/TwinklingStars';
 import MountainLayers from './background/MountainLayers';
@@ -13,10 +16,13 @@ import {
   socialLinks,
   seoStructuredData,
 } from '../data/portfolioData';
-import type { Person } from 'schema-dts';
-import { JsonLd } from 'react-schemaorg';
 
 const MountainPortfolio: React.FC = () => {
+  useHead({
+    /* Structured data for SEO */
+    script: [helmetJsonLdProp<Person>(seoStructuredData)],
+  });
+
   return (
     <div
       className="relative h-screen overflow-hidden font-sans text-white"
@@ -41,8 +47,6 @@ const MountainPortfolio: React.FC = () => {
       <div className="absolute right-4 bottom-2 z-30">
         <p className="text-[0.5rem] text-white/60">Built by k0nci with AI help • 2025</p>
       </div>
-      {/* Structured data for SEO */}
-      <JsonLd<Person> item={seoStructuredData} />
     </div>
   );
 };
