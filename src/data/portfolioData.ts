@@ -1,7 +1,7 @@
 import type { PersonalInfo, ActivityItem, SocialLink } from '../types';
 import { SiGithub, SiLinkedin } from 'react-icons/si';
 import { PiPersonSimpleBike, PiPersonSimpleSnowboard, PiMountains } from 'react-icons/pi';
-import type { Person, WithContext } from 'schema-dts';
+import type { ProfilePage, WithContext } from 'schema-dts';
 
 export const personalInfo: PersonalInfo = {
   name: 'Matej Koncal',
@@ -29,16 +29,19 @@ export const socialLinks: SocialLink[] = [
   },
 ];
 
-export const seoStructuredData: WithContext<Person> = {
+export const seoStructuredData: WithContext<ProfilePage> = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: personalInfo.name,
-  jobTitle: 'Software Engineer',
-  url: 'https://k0nci.me',
-  sameAs: ['https://github.com/k0nci', 'https://linkedin.com/in/mkoncal'],
-  alumniOf: {
-    '@type': 'CollegeOrUniversity',
-    name: ['Slovak Technical University', 'Faculty of Informatics and Information Technologies'],
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    name: personalInfo.name,
+    jobTitle: 'Software Engineer',
+    url: 'https://k0nci.me',
+    sameAs: ['https://github.com/k0nci', 'https://linkedin.com/in/mkoncal'],
+    alumniOf: {
+      '@type': 'CollegeOrUniversity',
+      name: ['Slovak Technical University', 'Faculty of Informatics and Information Technologies'],
+    },
+    knowsAbout: ['Backend Development', 'Cloud Computing', 'Software Architecture'],
   },
-  knowsAbout: ['Backend Development', 'Cloud Computing', 'Software Architecture'],
 };

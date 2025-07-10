@@ -1,7 +1,7 @@
 import React from 'react';
-import type { Person } from 'schema-dts';
-import { helmetJsonLdProp } from 'react-schemaorg';
 import { useHead } from '@unhead/react';
+import { helmetJsonLdProp } from 'react-schemaorg';
+import type { ProfilePage } from 'schema-dts';
 // import AuroraBackground from './background/AuroraBackground';
 import TwinklingStars from './background/TwinklingStars';
 import MountainLayers from './background/MountainLayers';
@@ -20,7 +20,7 @@ import {
 const MountainPortfolio: React.FC = () => {
   useHead({
     /* Structured data for SEO */
-    script: [helmetJsonLdProp<Person>(seoStructuredData)],
+    script: [helmetJsonLdProp<ProfilePage>(seoStructuredData)],
   });
 
   return (
