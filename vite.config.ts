@@ -12,4 +12,13 @@ export default defineConfig({
       targets: ['defaults', 'not dead', '> 0.2%'],
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+        },
+      },
+    },
+  },
 });
