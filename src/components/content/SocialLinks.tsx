@@ -17,7 +17,7 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ links, className = '' }) => (
           target="_blank"
           rel="noopener noreferrer"
           title={link.title}
-          className="text-white/80 transition-all duration-300 hover:-translate-y-2 hover:text-white hover:drop-shadow-lg"
+          className="text-white/80 transition-all duration-300 hover:scale-125 hover:text-white hover:drop-shadow-lg"
         >
           <IconComponent size={24} />
         </a>
