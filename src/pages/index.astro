@@ -1,0 +1,102 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+// import AuroraBackground from '@components/background/AuroraBackground.astro';
+import TwinklingStars from '@components/background/TwinklingStars.astro';
+import MountainLayers from '@components/background/MountainLayers.astro';
+import HeroTitle from '@components/content/HeroTitle.astro';
+import TechStack from '@components/content/TechStack.astro';
+import ActivityIcons from '@components/content/ActivityIcons.astro';
+import SocialLinks from '@components/content/SocialLinks.astro';
+import type { PersonalInfo, ActivityItem, SocialLink } from '../types';
+import type { ProfilePage, WithContext } from 'schema-dts';
+
+const personalInfo: PersonalInfo = {
+  name: 'Matej Koncal',
+  subtitle: 'Software Engineer & Mountain Enthusiast',
+  description:
+    'Software Engineer specializing in Backend, Cloud, and DevOps. Mountain enthusiast from Slovakia.',
+};
+
+const technologies = ['Backend', 'Cloud', 'Architecture', 'DevOps'];
+
+const activities: ActivityItem[] = [
+  { icon: 'ph:person-simple-bike', title: 'Mountain Biking' },
+  { icon: 'ph:mountains', title: 'Mountains' },
+  { icon: 'ph:person-simple-snowboard', title: 'Snowboarding' },
+];
+
+const socialLinks: SocialLink[] = [
+  {
+    href: 'https://github.com/k0nci',
+    title: 'GitHub',
+    icon: 'cib:github',
+  },
+  {
+    href: 'https://linkedin.com/in/mkoncal',
+    title: 'LinkedIn',
+    icon: 'cib:linkedin',
+  },
+];
+
+const seoStructuredData: WithContext<ProfilePage> = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  mainEntity: {
+    '@type': 'Person',
+    name: personalInfo.name,
+    jobTitle: 'Software Engineer',
+    url: 'https://k0nci.me',
+    sameAs: ['https://github.com/k0nci', 'https://linkedin.com/in/mkoncal'],
+    alumniOf: {
+      '@type': 'CollegeOrUniversity',
+      name: ['Slovak Technical University', 'Faculty of Informatics and Information Technologies'],
+    },
+    knowsAbout: ['Backend Development', 'Cloud Computing', 'Software Architecture'],
+  },
+};
+---
+
+<BaseLayout
+  title={`${personalInfo.name} | Personal Website`}
+  description={personalInfo.description}
+  structuredData={seoStructuredData}
+>
+  <div
+    class="relative h-screen overflow-hidden font-sans text-white"
+    style="background: linear-gradient(135deg, #2c3e50 0%, #4a69bd 20%, #3c6382 40%, #40739e 60%, #487eb0 80%, #5b73e8 100%);"
+  >
+    <!-- <AuroraBackground /> -->
+    <TwinklingStars />
+    <MountainLayers class="z-10" />
+    <div class="relative z-20 flex h-full items-center justify-center">
+      <div class="animate-fadeInUp px-4 text-center">
+        <HeroTitle name={personalInfo.name} subtitle={personalInfo.subtitle} class="mb-14" />
+        <TechStack technologies={technologies} class="mb-14" />
+        <ActivityIcons activities={activities} class="mb-12" />
+        <SocialLinks links={socialLinks} />
+      </div>
+    </div>
+
+    <!-- Copyright notice -->
+    <div class="absolute right-4 bottom-2 z-30">
+      <p class="text-[0.5rem] text-white/60">Built by k0nci with AI help • 2025</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(70px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fadeInUp {
+    animation: fadeInUp 1.8s ease-out;
+  }
+</style>

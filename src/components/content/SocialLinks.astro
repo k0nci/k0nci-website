@@ -1,0 +1,29 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { SocialLink } from '../../types';
+
+interface Props {
+  links: SocialLink[];
+  class?: string;
+}
+
+const { links, class: className = '' } = Astro.props;
+---
+
+<div class={`${className} flex justify-center gap-12`}>
+  {
+    links.map((link) => {
+      return (
+        <a
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={link.title}
+          class="text-white/80 transition-all duration-300 hover:scale-125 hover:text-white hover:drop-shadow-lg"
+        >
+          <Icon name={link.icon} size={24} />
+        </a>
+      );
+    })
+  }
+</div>

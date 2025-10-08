@@ -1,0 +1,49 @@
+---
+// Aurora Background Component
+// Creates animated gradient layers for an aurora borealis effect
+---
+
+<div class="absolute inset-0 overflow-hidden">
+  <!-- Main aurora layer -->
+  <div
+    class="absolute inset-0 bg-linear-to-r from-purple-500/20 via-blue-500/30 to-green-400/20 opacity-60"
+    style="animation: auroraShift 24s ease-in-out infinite; filter: blur(60px); transform: scale(1.5);"
+  >
+  </div>
+
+  <!-- Secondary aurora layer -->
+  <div
+    class="absolute inset-0 bg-linear-to-l from-pink-400/15 via-purple-600/25 to-blue-400/15 opacity-70"
+    style="animation: auroraShift 32s ease-in-out infinite reverse; filter: blur(80px); transform: scale(1.2); animation-delay: 2s;"
+  >
+  </div>
+
+  <!-- Third aurora layer for more complexity -->
+  <div
+    class="absolute inset-0 bg-linear-to-br from-cyan-400/10 via-indigo-500/20 to-purple-500/10 opacity-50"
+    style="animation: auroraShift 64s ease-in-out infinite; filter: blur(100px); transform: scale(1.8); animation-delay: 4s;"
+  >
+  </div>
+</div>
+
+<style>
+  @keyframes auroraShift {
+    0%,
+    100% {
+      opacity: 0.3;
+      transform: translateX(-50%) translateY(-50%) rotate(0deg) scale(1);
+    }
+    25% {
+      opacity: 0.8;
+      transform: translateX(-30%) translateY(-60%) rotate(90deg) scale(1.1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: translateX(-70%) translateY(-40%) rotate(180deg) scale(0.9);
+    }
+    75% {
+      opacity: 0.9;
+      transform: translateX(-40%) translateY(-70%) rotate(270deg) scale(1.2);
+    }
+  }
+</style>

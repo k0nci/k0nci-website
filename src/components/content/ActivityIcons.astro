@@ -1,0 +1,26 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { ActivityItem } from '../../types';
+
+interface Props {
+  activities: ActivityItem[];
+  class?: string;
+}
+
+const { activities, class: className = '' } = Astro.props;
+---
+
+<div class={`${className} flex justify-center gap-8 md:gap-14`}>
+  {
+    activities.map((activity) => {
+      return (
+        <div
+          title={activity.title}
+          class="flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/15 bg-white/10 backdrop-blur-sm md:h-16 md:w-16"
+        >
+          <Icon name={activity.icon} class="text-2xl md:text-3xl" />
+        </div>
+      );
+    })
+  }
+</div>
