@@ -17,6 +17,15 @@
       "options": {
         "parser": "astro"
       }
+    },
+    {
+      "files": [
+        "*.json",
+        "*.jsonc"
+      ],
+      "options": {
+        "trailingComma": "none"
+      }
     }
   ]
 }

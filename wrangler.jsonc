@@ -2,6 +2,7 @@
   "name": "k0nci-website",
   "main": "src/worker.js",
   "compatibility_date": "2025-06-01",
+  "preview_urls": true,
   "assets": {
     "directory": "./dist"
   }
