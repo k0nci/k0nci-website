@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.6",
-    "@astrojs/ts-plugin": "^1.10.4",
+    "@astrojs/ts-plugin": "^1.10.6",
     "@eslint/js": "^9.37.0",
     "@iconify-json/cib": "^1.2.3",
     "@iconify-json/ph": "^1.2.2",
