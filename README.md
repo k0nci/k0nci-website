@@ -14,27 +14,21 @@ A personal portfolio website built with Astro, TypeScript, and Tailwind CSS. Fea
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 22+
 - npm
 
 ### Installation
 
-1. Clone the repository and navigate to the website folder:
+1. Install dependencies:
 
    ```bash
-   cd website
+   npm ci
    ```
 
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
+2. Start the development server:
 
    ```bash
    npm run dev
    ```
 
-4. Open your browser and visit `http://localhost:4321`
+3. Open your browser and visit `http://localhost:4321`
