@@ -1,0 +1,30 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "yearly"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "k0nci"
+    assignees:
+      - "k0nci"
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "yearly"
+    commit-message:
+      prefix: "chore(ci)"
+    groups:
+      all-actions:
+        patterns:
+          - "*"
