@@ -29,7 +29,6 @@ export default defineConfig(
   {
     files: ['**/*.astro'],
     languageOptions: {
-      parser: eslintPluginAstro.parser,
       parserOptions: {
         parser: tseslint.parser,
         extraFileExtensions: ['.astro'],
