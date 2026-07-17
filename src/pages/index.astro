@@ -62,13 +62,13 @@ const seoStructuredData: WithContext<ProfilePage> = {
   structuredData={seoStructuredData}
 >
   <div
-    class="relative min-h-dvh overflow-hidden font-sans text-white"
+    class="relative flex min-h-dvh flex-col overflow-hidden font-sans text-white"
     style="background: linear-gradient(135deg, #2c3e50 0%, #4a69bd 20%, #3c6382 40%, #40739e 60%, #487eb0 80%, #5b73e8 100%);"
   >
     <!-- <AuroraBackground /> -->
     <TwinklingStars />
     <MountainLayers class="z-10" />
-    <div class="relative z-20 flex min-h-dvh items-center justify-center">
+    <div class="relative z-20 flex grow items-center justify-center">
       <div class="animate-fadeInUp px-4 py-12 text-center">
         <HeroTitle name={personalInfo.name} subtitle={personalInfo.subtitle} class="mb-14" />
         <TechStack technologies={technologies} class="mb-14" />
