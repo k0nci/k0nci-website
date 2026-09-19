@@ -14,11 +14,12 @@ npm run lint       # eslint
 npm run lint:fix   # eslint with auto-fix
 npm run format:check  # prettier check
 npm run format     # prettier write
+npm run test       # vitest (hook and parser unit tests)
 ```
 
 ## CI
 
-`ci` triggers on pushes and PRs to main. Checks: typecheck, lint, format:check.
+`ci` triggers on pushes and PRs to main. Checks: typecheck, lint, format:check, test.
 
 ## Architecture
 
@@ -28,6 +29,8 @@ npm run format     # prettier write
 - Site URL configurable via `SITE_URL` env var (defaults to `https://k0nci.me`)
 - ESLint flat config with `typescript-eslint` type-checked rules and `eslint-plugin-astro`
 - Prettier with `prettier-plugin-astro` and `prettier-plugin-tailwindcss`
+- **React islands** via `@astrojs/react`; only `src/components/chat/` uses React, mounted with `client:only`
+- **AI chat** — `/chat` page calls `POST /api/chat`, served by the separate `k0nci-agent` worker (repo `k0nci/k0nci-agent`) on a Cloudflare route; in dev Vite proxies `/api` to `http://localhost:8787`
 
 ## Project Structure
 
@@ -35,6 +38,8 @@ npm run format     # prettier write
 - `src/layouts/BaseLayout.astro` — root HTML layout with meta tags and OG data
 - `src/components/content/` — content components (HeroTitle, TechStack, ActivityIcons, SocialLinks)
 - `src/components/background/` — visual effects (TwinklingStars, MountainLayers, AuroraBackground)
+- `src/components/chat/` — `Chat.tsx`, `useChat.ts`, `sse.ts`
+- `src/pages/chat.astro` — chat page
 - `src/types/index.ts` — shared TypeScript interfaces (PersonalInfo, ActivityItem, SocialLink)
 - `src/styles/global.css` — single `@import 'tailwindcss'` entry point
 - `public/` — static assets (og-image.png)
