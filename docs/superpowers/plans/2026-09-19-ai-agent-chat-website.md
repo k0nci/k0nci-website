@@ -175,7 +175,7 @@ If `reactHooks.configs.flat.recommended` is undefined in the installed version, 
 
 - [ ] **Step 8: Add the test script and CI step**
 
-In `package.json` scripts add `"test": "vitest run"`. In `.github/workflows/ci.yml` append after the format check:
+In `package.json` scripts add `"test": "vitest run"`. In `.github/workflows/ci.yml` append after the format check, indented as a list item under `steps` like the existing ones:
 
 ```yaml
 - name: Tests
