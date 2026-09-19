@@ -7,6 +7,7 @@ import HeroTitle from '@components/content/HeroTitle.astro';
 import TechStack from '@components/content/TechStack.astro';
 import ActivityIcons from '@components/content/ActivityIcons.astro';
 import SocialLinks from '@components/content/SocialLinks.astro';
+import ChatCta from '@components/content/ChatCta.astro';
 import type { PersonalInfo, ActivityItem, SocialLink } from '../types';
 import type { ProfilePage, WithContext } from 'schema-dts';
 
@@ -73,7 +74,8 @@ const seoStructuredData: WithContext<ProfilePage> = {
         <HeroTitle name={personalInfo.name} subtitle={personalInfo.subtitle} class="mb-14" />
         <TechStack technologies={technologies} class="mb-14" />
         <ActivityIcons activities={activities} class="mb-12" />
-        <SocialLinks links={socialLinks} />
+        <SocialLinks links={socialLinks} class="mb-10" />
+        <ChatCta href="/chat" />
       </div>
     </div>
 
