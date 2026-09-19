@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent, type SubmitEvent } from 'react';
 import type { ChatMessage } from '../../types';
 import { useChat } from './useChat';
 
@@ -30,12 +30,21 @@ function Bubble({ message }: { message: ChatMessage }) {
 export default function Chat() {
   const { messages, status, error, send } = useChat();
   const [draft, setDraft] = useState('');
+  const listRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const nearBottomRef = useRef(true);
   const streaming = status === 'streaming';
 
+  const onScroll = () => {
+    const list = listRef.current;
+    if (!list) return;
+    nearBottomRef.current = list.scrollHeight - list.scrollTop - list.clientHeight < 40;
+  };
+
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    if (!nearBottomRef.current) return;
+    bottomRef.current?.scrollIntoView({ behavior: streaming ? 'auto' : 'smooth' });
+  }, [messages, streaming]);
 
   const submit = (text: string) => {
     if (streaming || !text.trim()) return;
@@ -43,13 +52,13 @@ export default function Chat() {
     void send(text);
   };
 
-  const onSubmit = (event: FormEvent) => {
+  const onSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     submit(draft);
   };
 
   const onKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
       event.preventDefault();
       submit(draft);
     }
@@ -57,7 +66,13 @@ export default function Chat() {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex-1 space-y-4 overflow-y-auto px-1 py-4">
+      <div
+        ref={listRef}
+        onScroll={onScroll}
+        aria-live="polite"
+        aria-busy={streaming}
+        className="flex-1 space-y-4 overflow-y-auto px-1 py-4"
+      >
         <Bubble message={{ role: 'assistant', content: INTRO }} />
         {messages.length === 0 && (
           <div className="flex flex-wrap gap-2">

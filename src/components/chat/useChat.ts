@@ -3,6 +3,7 @@ import type { ChatMessage } from '../../types';
 import { parseSse } from './sse';
 
 export const MAX_HISTORY = 20;
+export const MAX_CONTENT_LENGTH = 1000;
 export type ChatStatus = 'idle' | 'streaming';
 
 export interface UseChatOptions {
@@ -43,14 +44,18 @@ async function streamInto(
   const reader = body.getReader();
   const decoder = new TextDecoder();
   let buffer = '';
-  for (;;) {
-    const { value, done } = await reader.read();
-    if (done) return;
-    buffer += decoder.decode(value, { stream: true });
-    const parsed = parseSse(buffer);
-    buffer = parsed.rest;
-    for (const token of parsed.tokens) onToken(token);
-    if (parsed.done) return;
+  try {
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) return;
+      buffer += decoder.decode(value, { stream: true });
+      const parsed = parseSse(buffer);
+      buffer = parsed.rest;
+      for (const token of parsed.tokens) onToken(token);
+      if (parsed.done) return;
+    }
+  } finally {
+    await reader.cancel().catch(() => undefined);
   }
 }
 
@@ -80,7 +85,15 @@ export function useChat(options: UseChatOptions = {}): UseChatResult {
         const response = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: history.slice(-MAX_HISTORY) }),
+          body: JSON.stringify({
+            messages: history
+              .filter((message) => message.content.trim() !== '')
+              .slice(-MAX_HISTORY)
+              .map((message) => ({
+                ...message,
+                content: message.content.slice(0, MAX_CONTENT_LENGTH),
+              })),
+          }),
           signal: controller.signal,
         });
         if (!response.ok) throw new HttpError(response.status);
@@ -88,6 +101,7 @@ export function useChat(options: UseChatOptions = {}): UseChatResult {
         await streamInto(response.body, (token) =>
           setMessages((prev) => appendToLastAssistant(prev, token))
         );
+        setMessages((prev) => dropTrailingEmptyAssistant(prev));
       } catch (err) {
         if (controller.signal.aborted) return;
         setError(err instanceof HttpError && err.status === 429 ? RATE_LIMIT_ERROR : GENERIC_ERROR);

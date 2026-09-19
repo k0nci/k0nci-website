@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { ChatMessage } from '../../types';
-import { MAX_HISTORY, useChat } from './useChat';
+import { MAX_CONTENT_LENGTH, MAX_HISTORY, useChat } from './useChat';
 
 function sseResponse(events: string[], init: ResponseInit = {}): Response {
   const encoder = new TextEncoder();
@@ -79,6 +79,36 @@ describe('useChat', () => {
     expect(messages).toHaveLength(MAX_HISTORY);
     expect(messages[messages.length - 1]).toEqual({ role: 'user', content: 'latest' });
     expect(messages[0]).toEqual({ role: 'user', content: 'm2' });
+  });
+
+  it('truncates oversized history content and drops whitespace-only messages', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(sseResponse(['data: [DONE]\n\n']));
+    vi.stubGlobal('fetch', fetchMock);
+    const longContent = 'a'.repeat(1500);
+    const initialMessages: ChatMessage[] = [
+      { role: 'assistant', content: longContent },
+      { role: 'user', content: '   ' },
+    ];
+
+    const { result } = renderHook(() => useChat({ initialMessages }));
+    await act(() => result.current.send('latest'));
+
+    const { messages } = requestBody(fetchMock.mock.calls[0] as unknown[]);
+    expect(messages).toEqual([
+      { role: 'assistant', content: 'a'.repeat(MAX_CONTENT_LENGTH) },
+      { role: 'user', content: 'latest' },
+    ]);
+  });
+
+  it('leaves only the user message when the stream ends with just [DONE]', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(sseResponse(['data: [DONE]\n\n']));
+    vi.stubGlobal('fetch', fetchMock);
+    const { result } = renderHook(() => useChat());
+    await act(() => result.current.send('Hi'));
+
+    await waitFor(() => expect(result.current.status).toBe('idle'));
+    expect(result.current.messages).toEqual([{ role: 'user', content: 'Hi' }]);
+    expect(result.current.error).toBeNull();
   });
 
   it('reports a rate limit error and drops the empty assistant message', async () => {

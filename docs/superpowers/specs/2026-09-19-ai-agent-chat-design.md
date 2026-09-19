@@ -105,9 +105,9 @@ wrangler.jsonc
   `send(text)` appends the user message, trims to the last 20, POSTs to
   `/api/chat`, reads the body with `TextDecoder`, parses `data:` lines,
   appends tokens to the trailing assistant message, stops on `[DONE]`.
-  Uses an `AbortController`; a new send or unmount aborts the previous
-  request. Maps 429 to "Too many messages, try again in a minute" and other
-  failures to a generic error.
+  Uses an `AbortController`; sends are ignored while a reply is streaming,
+  and unmount aborts the in-flight request. Maps 429 to "Too many messages,
+  try again in a minute" and other failures to a generic error.
 - `src/components/chat/Chat.tsx`: message list (user right, assistant left),
   intro assistant message with example questions, textarea (Enter sends,
   Shift+Enter newline), send button disabled while streaming, inline error
@@ -131,7 +131,8 @@ Website:
 
 - `useChat` hook tests with a mocked `fetch`: sends the trimmed transcript,
   appends streamed tokens in order, sets error on 429 and on network failure,
-  aborts a previous in-flight request on a new send.
+  ignores sends while a reply is streaming and aborts the in-flight request
+  on unmount.
 - Manual end-to-end: `wrangler dev` in the agent repo plus `npm run dev` here.
 
 ## Rollout
