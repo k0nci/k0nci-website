@@ -1,0 +1,23 @@
+---
+// Deliberately specific: this is the site's only call-to-action. It shares the glass pill
+// styling with TechStack; if a second button or CTA appears, extract a shared Pill/Button
+// component instead of copying these classes again.
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  href: string;
+  class?: string;
+}
+
+const { href, class: className = '' } = Astro.props;
+---
+
+<div class={`${className} flex justify-center`}>
+  <a
+    href={href}
+    class="group inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/8 px-6 py-3 text-sm font-light tracking-wide text-white/90 backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:border-white/30 hover:bg-white/15 hover:text-white md:text-base"
+  >
+    <Icon name="ph:chat-circle-dots" size={20} class="transition-transform group-hover:rotate-12" />
+    <span>Chat about me with my AI agent</span>
+  </a>
+</div>

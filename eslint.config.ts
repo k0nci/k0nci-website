@@ -2,6 +2,7 @@ import js from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import eslintPluginAstro from 'eslint-plugin-astro';
+import reactHooks from 'eslint-plugin-react-hooks';
 
 export default defineConfig(
   // Ignore auto-generated files
@@ -14,7 +15,7 @@ export default defineConfig(
       ...tseslint.configs.recommendedTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
     ],
-    files: ['**/*.{ts,mts}'],
+    files: ['**/*.{ts,mts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
       parserOptions: {
@@ -22,6 +23,12 @@ export default defineConfig(
         tsconfigRootDir: import.meta.dirname,
       },
     },
+  },
+
+  // React hooks rules for islands
+  {
+    files: ['**/*.tsx'],
+    extends: [reactHooks.configs.flat.recommended],
   },
 
   // Astro-specific configs

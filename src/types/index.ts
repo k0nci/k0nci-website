@@ -14,3 +14,10 @@ export interface SocialLink {
   title: string;
   icon: string;
 }
+
+export type ChatRole = 'user' | 'assistant';
+
+export interface ChatMessage {
+  role: ChatRole;
+  content: string;
+}
