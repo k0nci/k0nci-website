@@ -40,7 +40,7 @@ npm run test       # vitest (hook and parser unit tests)
 - `src/layouts/BaseLayout.astro` — root HTML layout with meta tags and OG data
 - `src/components/content/` — content components (HeroTitle, TechStack, ActivityIcons, SocialLinks)
 - `src/components/background/` — visual effects (TwinklingStars, MountainLayers, AuroraBackground)
-- `src/components/chat/` — `Chat.tsx`, `useChat.ts`, `sse.ts`
+- `src/components/chat/` — `Chat.tsx`, `useChat.ts`, `sse.ts` (thin wrapper over `eventsource-parser`)
 - `src/pages/chat.astro` — chat page
 - `src/types/index.ts` — shared TypeScript interfaces (PersonalInfo, ActivityItem, SocialLink)
 - `src/styles/global.css` — single `@import 'tailwindcss'` entry point

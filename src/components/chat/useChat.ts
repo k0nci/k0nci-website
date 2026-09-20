@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ChatMessage } from '../../types';
-import { parseSse } from './sse';
+import { createTokenParser } from './sse';
 
 export const MAX_HISTORY = 20;
 export const MAX_CONTENT_LENGTH = 1000;
@@ -43,16 +43,18 @@ async function streamInto(
 ): Promise<void> {
   const reader = body.getReader();
   const decoder = new TextDecoder();
-  let buffer = '';
+  let finished = false;
+  const parser = createTokenParser({
+    onToken,
+    onDone: () => {
+      finished = true;
+    },
+  });
   try {
-    for (;;) {
+    while (!finished) {
       const { value, done } = await reader.read();
       if (done) return;
-      buffer += decoder.decode(value, { stream: true });
-      const parsed = parseSse(buffer);
-      buffer = parsed.rest;
-      for (const token of parsed.tokens) onToken(token);
-      if (parsed.done) return;
+      parser.feed(decoder.decode(value, { stream: true }));
     }
   } finally {
     await reader.cancel().catch(() => undefined);
