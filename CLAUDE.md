@@ -30,7 +30,9 @@ npm run test       # vitest (hook and parser unit tests)
 - ESLint flat config with `typescript-eslint` type-checked rules and `eslint-plugin-astro`
 - Prettier with `prettier-plugin-astro` and `prettier-plugin-tailwindcss`
 - **React islands** via `@astrojs/react`; only `src/components/chat/` uses React, mounted with `client:only`
-- **AI chat** — `/chat` page calls `POST /api/chat`, served by the separate `k0nci-agent` worker (repo `k0nci/k0nci-agent`) on a Cloudflare route; in dev Vite proxies `/api` to `http://localhost:8787`
+- **AI chat** — `/chat` page calls `POST /api/chat`, served by the separate `k0nci-agent` worker (repo `k0nci/k0nci-agent`) on a Cloudflare route for exactly `k0nci.me/api/chat`; in dev Vite proxies `/api` to `http://localhost:8787` (run `npm run dev` in `k0nci-agent`)
+  - Contract: body `{ messages: { role: 'user' | 'assistant'; content: string }[] }`, max 20 messages of max 1,000 chars, last message from the user; response is `text/event-stream` with `data: {"response":"<token>"}` events ending in `data: [DONE]`; errors are JSON `{ error }` with 400/403/429/502
+  - Stateless: the client sends the trimmed transcript every request (`useChat.ts`); the worker checks the `Origin` header and rate-limits per IP, then answers from markdown facts stuffed into the system prompt (no retrieval)
 
 ## Project Structure
 
